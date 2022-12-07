@@ -2,27 +2,27 @@ from collections import defaultdict
 
 
 def words_generator(txtfile):
-    with open(txtfile, 'r', encoding='UTF-8') as file:
+    with open(txtfile, 'r', encoding='UTF-8') as file:  # przesłonięcie symbolu wbudowanego
         for line in file:
-            if line:    #ignore blank lines
+            if line:    #ignore blank lines # właściwie to nie jest potrzebne, bo pusta linia nam nic nie zepsuje
                 tokens = line.split()  # list of tokens in line sepatared by any whitespace
                 for token in tokens:
                     if token not in '.,,?!-;:()"':      #ignore symbols
                         word = ""
                         for char in token:
                             if char not in '.,,?!-;:()"':
-                                word += char
+                                word += char    # mocno niewydajne i złe wyniki daje
                         yield word.lower()       #yield lowercased word - token without punctuation
 
 
-def words_counter(txtfile, lenofranking):
-    counter = defaultdict(lambda: 0)
+def words_counter(txtfile, lenofranking):  # przydałyby się podkreślniki w tej nazwie
+    counter = defaultdict(lambda: 0)  # polecam klasę collections.Counter
     for word in words_generator(txtfile):
         counter[word] += 1
 
     ranking = sorted(counter.items(), key=lambda x: x[1], reverse=True)
     while True:
-        if ranking[lenofranking][1] == ranking[lenofranking-1][1]:
+        if ranking[lenofranking][1] == ranking[lenofranking-1][1]:  # uwaga na IndexError
             lenofranking += 1
         else:
             break
