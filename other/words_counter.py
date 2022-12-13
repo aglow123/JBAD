@@ -21,11 +21,8 @@ def words_counter(txtfile, lenofranking):
         counter[word] += 1
 
     ranking = sorted(counter.items(), key=lambda x: x[1], reverse=True)
-    while True:
-        if ranking[lenofranking][1] == ranking[lenofranking-1][1]:
-            lenofranking += 1
-        else:
-            break
+    while lenofranking < len(ranking) and ranking[lenofranking][1] == ranking[lenofranking-1][1]:
+        lenofranking += 1
     return ranking[:lenofranking]
 
 
