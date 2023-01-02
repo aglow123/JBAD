@@ -5,15 +5,14 @@ import numpy as np
 class KNN:
 
     def __init__(self, dataset):
-        self.train_dataset = []
+        self.train_dataset = []  # lista?
         self.train(dataset)
 
     def train(self, data_to_train):
-        for row in data_to_train:
-            self.train_dataset.append(row)
-
+        self.train_dataset.extend(data_to_train)
+        
     def predict(self, data_to_predict, k, type_of_distance=0):
-        if type_of_distance not in range(4):
+        if type_of_distance not in range(4):  # a gdyby użyć enuma? albo przekazać funkcję?
             raise ValueError('wrong type_of_distance value')
 
         if type_of_distance == 0:
@@ -28,16 +27,16 @@ class KNN:
         for test_row in data_to_predict:
             distances = np.array([])
             for train_row in self.train_dataset:
-                distances = np.append(distances, [train_row[-1], type_of_distance(train_row, test_row)])
+                distances = np.append(distances, [train_row[-1], type_of_distance(train_row, test_row)])  # append zabija sens używania numpy'a
             distances = distances.reshape(-1, 2)
             distances = distances[np.argsort(distances[:, -1])][:k, :1]
             values, counts = np.unique(distances, return_counts=True)
             predictions.append(values[np.argmax(counts)])
         return predictions
 
-    def euclidean_distance(self, train_row, test_row):
+    def euclidean_distance(self, train_row, test_row):  # do przemyślenia, czy nie lepiej z tego zrobić funkcję
         distance = 0.0
-        for i in range(len(train_row) - 1):
+        for i in range(len(train_row) - 1):  # nie dałoby się uniknąć tej pętli?
             distance += (train_row[i] - test_row[i]) ** 2
         return sqrt(distance)
 
@@ -50,12 +49,12 @@ class KNN:
     def chebyshev_distance(self, train_row, test_row):
         distance = 0.0
         for i in range(len(train_row) - 1):
-            if distance < abs(train_row[i] - test_row[i]):
+            if distance < abs(train_row[i] - test_row[i]):  # woła o pomstę
                 distance = abs(train_row[i] - test_row[i])
         return distance
 
     def cosine_distance(self, train_row, test_row):
-        return np.dot(train_row[:-1], test_row) / (np.linalg.norm(train_row[:-1]) + np.linalg.norm(test_row))
+        return np.dot(train_row[:-1], test_row) / (np.linalg.norm(train_row[:-1]) + np.linalg.norm(test_row))  # 1-
 
 
 sample = KNN([[2.7810836, 2.550537003, 0],
