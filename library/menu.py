@@ -13,7 +13,7 @@ def menu(loginname, user_type, options):
             choice = int(input(">> "))
             assert choice in correct_choices
         except (ValueError, AssertionError):
-            pass
+            pass  # pusty except wymaga komentarza
         else:
             func, args, kwargs = options[choice][1]
             if choice == 0 or choice == 1:      #exit, login, logout
@@ -29,7 +29,7 @@ def show_menu(log, utype, menu_type):
 
 
 def choice_menu(menu_type, utype):
-    if menu_type == 'admin':
+    if menu_type == 'admin':  # a gdyby tak użyć słownika?
         return admin_menu
     elif menu_type == 'reader':
         return reader_menu
