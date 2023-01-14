@@ -8,7 +8,7 @@ if __name__ == '__main__':
 
     df1 = pd.read_csv(r'dane/Plant_1_Generation_Data.csv')
     df2 = pd.read_csv(r'dane/Plant_2_Generation_Data.csv')
-    df2['DATE_TIME'] = df2['DATE_TIME'].apply(lambda x: datetime.strptime(x, '%Y-%m-%d %H:%M:%S'))
+    df2['DATE_TIME'] = df2['DATE_TIME'].apply(lambda x: datetime.strptime(x, '%Y-%m-%d %H:%M:%S')) # nie wystarczy użyć parse_dates przy wczytywaniu?
     df2['DATE_TIME'] = df2['DATE_TIME'].apply(lambda x: datetime.strftime(x, '%d-%m-%Y %H:%M'))
 
     df = pd.concat([df1, df2])
